@@ -1,3 +1,5 @@
+import { italyProgrammes } from './italy-programmes.js';
+
 const originalProgrammes = [
   { id:'abertay-design', university:'Abertay University', programme:'BSc (Hons) Game Design and Production', city:'Dundee', country:'United Kingdom', discipline:'Game Design', portfolio:'Portfolio Recommended', strengths:['Game Mechanics','Creative Technology'], type:'Technology University', tuition:'£17,950', difficulty:'Target', duration:'4 Years', focus:'Production, systems and studio practice', english:'IELTS 6.0', entry:'A-Level: BBB / BTEC: DDM', careers:['Game Designer','Level Designer','Producer'], description:'Industry-shaped design, production and creative technology in a specialist games city.' },
   { id:'falmouth-design', university:'Falmouth University', programme:'BA (Hons) Game Development: Design', city:'Penryn', country:'United Kingdom', discipline:'Game Design', portfolio:'Portfolio Recommended', strengths:['Game Mechanics','Storytelling'], type:'Art & Design University', tuition:'£19,950', difficulty:'Target', duration:'3 Years', focus:'Team production and player experience', english:'IELTS 6.0', entry:'A-Level: BBC / BTEC: DMM', careers:['Game Designer','Systems Designer','Producer'], description:'Collaborative studio projects with a strong focus on playable ideas.' },
@@ -270,6 +272,7 @@ export const programmes = [
   ...normalizedExisting,
   ...additionalProgrammes.map((item) => ({ ...item, cluster:clusterByDiscipline[item.discipline] })),
   ...expandedUkProgrammes.map((item) => ({ ...item, cluster:clusterByDiscipline[item.discipline] })),
+  ...italyProgrammes.map((item) => ({ ...item, cluster:clusterByDiscipline[item.discipline] })),
 ].map((item) => ({ ...item, type:canonicalUniversityTypes[item.university] || item.type }));
 
 const disciplineRecords = [

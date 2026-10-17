@@ -1,3 +1,5 @@
+import { destinations } from './destinations.js';
+
 const scoring = {
   'Characters & Worlds': { 'Game Art':3, 'Narrative Design':2 },
   'Rules & Mechanics': { 'Game Design':4 },
@@ -64,7 +66,7 @@ const careerMap = {
 
 const routingQuestions = [
   { key:'level', prompt:'Which level are you applying for?', options:['Undergraduate','Postgraduate'] },
-  { key:'country', prompt:'Where would you like to study?', options:['United Kingdom','Australia','Hong Kong'] },
+  { key:'country', prompt:'Where would you like to study?', options:destinations },
   { key:'family', prompt:'Which broad direction feels closer to you?', options:['Game Design','Digital Media Arts'] },
 ];
 
@@ -102,7 +104,7 @@ export function filterProgrammes(items, filters) {
     (!filters.type || item.type === filters.type) &&
     (!filters.difficulty || item.difficulty === filters.difficulty) &&
     (!filters.tuitionMax || (() => {
-      const amount = item.tuitionValue ?? Number(item.tuition?.replace(/[^0-9]/g,'') || 0);
+      const amount = Object.hasOwn(item, 'tuitionValue') ? item.tuitionValue : Number(item.tuition?.replace(/[^0-9]/g,'') || 0);
       return amount > 0 && amount <= filters.tuitionMax;
     })())
   );
@@ -141,11 +143,7 @@ const clusterByDiscipline = {
 };
 
 export function getAdjacentProgrammes(items, filters, limit=3) {
-  const routeMatches = items.filter((item) =>
-    (!filters.level || item.level === filters.level) &&
-    (!filters.country || item.country === filters.country) &&
-    (!filters.family || item.family === filters.family)
-  );
+  const routeMatches = filterProgrammes(items, { ...filters, university:'', cluster:'', discipline:'' });
   const preferredCluster = filters.cluster || clusterByDiscipline[filters.discipline];
   return routeMatches
     .map((item, index) => ({ item, index, score:(item.cluster === preferredCluster ? 3 : 0) + (item.discipline === filters.discipline ? 2 : 0) }))

@@ -218,3 +218,61 @@ test('changing a route or advanced filter clears a university that may no longer
   assert.equal(updateProgrammeFilters(current, 'tuitionMax', 30000).university, '');
   assert.equal(updateProgrammeFilters(current, 'university', 'Royal College of Art').university, 'Royal College of Art');
 });
+
+test('an Italy game quiz leads to an Italian undergraduate course', async () => {
+  const { programmes } = await import('../src/data.js');
+  const { getQuizQuestions, calculatePath, filterProgrammes } = await import('../src/logic.js');
+  const destinationQuestion = getQuizQuestions().find((question) => question.key === 'country');
+  assert.ok(destinationQuestion.options.includes('Italy'));
+  const recommendation = calculatePath({
+    country:'Italy', level:'Undergraduate', family:'Game Design',
+    preferences:['Rules & Mechanics','Game Prototypes','Unity / Unreal Engine','Average','Designing how a game works'],
+  });
+  const matches = filterProgrammes(programmes, recommendation);
+  assert.ok(matches.some((item) => item.id === 'naba-creative-game-ug'));
+  assert.ok(matches.every((item) => item.country === 'Italy' && item.level === 'Undergraduate'));
+});
+
+test('an Italy immersive-media quiz preserves postgraduate destination and finds a course', async () => {
+  const { programmes } = await import('../src/data.js');
+  const { calculatePath, filterProgrammes } = await import('../src/logic.js');
+  const recommendation = calculatePath({
+    country:'Italy', level:'Postgraduate', family:'Digital Media Arts',
+    preferences:['Immersive Experiences','Creative Coding','TouchDesigner / Unity','Strong','Building an immersive installation'],
+  });
+  const matches = filterProgrammes(programmes, recommendation);
+  assert.ok(matches.some((item) => item.id === 'iuav-digital-exhibit-pg'));
+  assert.ok(matches.every((item) => item.country === 'Italy' && item.level === 'Postgraduate'));
+});
+
+test('Italy fee caps exclude unknown fees and more expensive courses', async () => {
+  const { programmes } = await import('../src/data.js');
+  const { filterProgrammes } = await import('../src/logic.js');
+  const matches = filterProgrammes(programmes, { country:'Italy', tuitionMax:15000 });
+  assert.ok(matches.some((item) => item.id === 'rufa-multimedia-game-ug'));
+  assert.ok(matches.some((item) => item.id === 'rufa-animation-vfx-pg'));
+  assert.ok(!matches.some((item) => item.id === 'domus-interaction-pg'));
+  assert.ok(!matches.some((item) => item.id === 'brera-new-technologies-ug'));
+});
+
+test('closest-course suggestions still honour the chosen tuition cap', async () => {
+  const { getAdjacentProgrammes } = await import('../src/logic.js');
+  const courses = [
+    { id:'expensive', country:'Italy', level:'Postgraduate', family:'Digital Media Arts', discipline:'Interaction Design', cluster:'Experience Design', tuitionValue:28900 },
+    { id:'affordable', country:'Italy', level:'Postgraduate', family:'Digital Media Arts', discipline:'Visual Effects & 3D', cluster:'Media Arts & Production', tuitionValue:14800 },
+    { id:'unknown', country:'Italy', level:'Postgraduate', family:'Digital Media Arts', discipline:'Interaction Design', cluster:'Experience Design', tuitionValue:null },
+  ];
+  const matches = getAdjacentProgrammes(courses, { country:'Italy', level:'Postgraduate', family:'Digital Media Arts', discipline:'Service Design', tuitionMax:20000 });
+  assert.deepEqual(matches.map((item) => item.id), ['affordable']);
+});
+
+test('an explicitly unconfirmed fee never falls back to a historical price label', async () => {
+  const { filterProgrammes } = await import('../src/logic.js');
+  const courses = [
+    { id:'current', country:'Italy', tuition:'€14,800', tuitionValue:14800 },
+    { id:'previous-intake', country:'Italy', tuition:'€6,500 (previous intake)', tuitionValue:null },
+    { id:'legacy-label', country:'Italy', tuition:'€12,000' },
+  ];
+  const matches = filterProgrammes(courses, { country:'Italy', tuitionMax:15000 });
+  assert.deepEqual(matches.map((item) => item.id), ['current', 'legacy-label']);
+});
