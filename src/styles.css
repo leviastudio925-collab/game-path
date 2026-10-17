@@ -94,6 +94,9 @@ button { cursor:pointer; }
 .load-more span { color:#667080; font:10px var(--mono); letter-spacing:.08em; text-transform:uppercase; }
 .load-more svg { width:18px; }
 .load-more:hover { background:var(--ink); color:white; }
+.finder-guide-link { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%; padding:18px 0; border:0; border-bottom:1px solid var(--line); background:transparent; text-align:left; font-size:14px; line-height:1.5; }
+.finder-guide-link svg { width:20px; flex-shrink:0; }
+.finder-guide-link:hover { color:#5f39ff; }
 .compare-ribbon { position:fixed; z-index:15; bottom:20px; right:20px; min-width:270px; height:56px; padding:0 18px; background:var(--lime); border:1px solid var(--ink); display:flex; justify-content:space-between; align-items:center; }
 .discipline-section { display:grid; grid-template-columns:40% 60%; background:var(--navy); color:white; border-top:1px solid var(--line); }
 .discipline-list { padding:56px 40px; }
@@ -182,6 +185,106 @@ thead button { float:right; color:white; background:transparent; border:0; }
 tbody th { font:10px var(--mono); text-transform:uppercase; }
 @keyframes fade { from { opacity:0; } }
 @keyframes rise { from { transform:translateY(18px); opacity:0; } }
+
+.application-guide { padding:80px 36px; border-top:1px solid var(--line); scroll-margin-top:80px; }
+.application-guide:lang(zh-CN),.programme-advice:lang(zh-CN) { font-family:'Manrope','PingFang SC','Microsoft YaHei',sans-serif; }
+.guide-heading { display:grid; grid-template-columns:1fr .65fr; gap:48px; align-items:end; margin-bottom:40px; }
+.guide-heading h2 { font-size:clamp(36px,4.5vw,64px); line-height:1.25; letter-spacing:-.035em; margin:18px 0 0; }
+.guide-heading > p { max-width:470px; font-size:17px; line-height:1.85; color:#56606f; }
+.guide-toolbar { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:20px 0; border-top:1px solid var(--line); }
+.guide-levels { display:flex; gap:8px; }
+.guide-levels button { min-height:46px; display:flex; align-items:center; gap:20px; padding:8px 20px; background:transparent; border:1px solid var(--line); }
+.guide-levels button[aria-pressed=true] { background:var(--ink); color:white; border-color:var(--ink); }
+.guide-levels span { font:10px var(--mono); }
+.guide-method { max-width:1000px; color:#56606f; font-size:12px; line-height:1.9; }
+.guide-destinations { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin:24px 0; }
+.guide-destinations button { padding:24px; text-align:left; border:1px solid var(--line); background:transparent; display:flex; flex-direction:column; align-items:flex-start; gap:12px; }
+.guide-destinations button.selected { background:var(--lavender); border-color:var(--ink); }
+.guide-destinations button:hover { border-color:var(--ink); }
+.guide-destinations strong { font-size:28px; }
+.guide-difficulty { font-size:13px; line-height:1.75; }
+.guide-destinations small { font-size:11px; line-height:1.8; color:#4d5666; margin-top:auto; }
+.guide-country-content { padding:32px; background:white; border:1px solid var(--line); }
+.guide-route-intro { display:grid; grid-template-columns:1fr 1.1fr; gap:32px; padding-bottom:28px; }
+.guide-route-intro h3 { font-size:30px; letter-spacing:-.035em; margin:8px 0 18px; }
+.guide-route-intro h4 { font-size:18px; margin:12px 0; }
+.guide-route-intro p { line-height:1.85; }
+.guide-rating { display:inline-block; padding:7px 12px; background:var(--lime); font-size:12px; line-height:1.75; }
+.guide-requirements { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border-top:1px solid var(--line); border-left:1px solid var(--line); }
+.guide-requirements article { padding:20px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+.guide-requirements h4 { font-size:17px; margin:18px 0 10px; }
+.guide-requirements p { margin:0; font-size:13px; line-height:1.9; color:#465161; }
+.guide-next { display:grid; grid-template-columns:160px 1fr; gap:24px; margin:28px 0; }
+.guide-next h4 { margin:6px 0; }
+.guide-next ol { margin:0; padding-left:22px; }
+.guide-next li { padding:4px 0 8px 6px; font-size:14px; line-height:1.85; }
+.guide-sources { display:flex; flex-wrap:wrap; align-items:center; gap:10px 20px; padding-top:18px; border-top:1px solid var(--line); }
+.guide-sources > span { font-size:11px; color:#56606f; }
+.guide-sources a { display:inline-flex; align-items:center; gap:8px; font-size:11px; line-height:1.7; text-underline-offset:4px; }
+.guide-sources svg { width:13px; flex-shrink:0; }
+.guide-direction-heading { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:48px 0 24px; }
+.guide-direction-heading h3 { font-size:30px; letter-spacing:-.03em; margin:12px 0 0; }
+.guide-direction-heading label { display:grid; gap:9px; font-size:12px; min-width:270px; }
+.guide-direction-heading select { min-height:48px; padding:8px 36px 8px 12px; border:1px solid var(--line); background:var(--paper); max-width:100%; }
+.guide-direction-content { display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); }
+.guide-direction-overview,.guide-direction-evidence { padding:32px; }
+.guide-direction-overview { background:var(--navy); color:white; }
+.guide-direction-content h4 { font-size:22px; margin:16px 0; }
+.guide-direction-content h5 { font-size:13px; margin:26px 0 8px; }
+.guide-direction-content p,.guide-direction-content li { font-size:14px; line-height:1.95; }
+.guide-direction-evidence ol { padding-left:22px; }
+.guide-direction-evidence li { padding:8px 0 12px 8px; border-bottom:1px solid var(--line); }
+.advice-highlight { background:rgba(203,197,255,.25); padding:14px 16px; font-size:13px; line-height:1.9; }
+.guide-local-note { grid-column:1/-1; border-top:1px solid var(--line); padding:22px 32px; }
+.guide-local-note h4 { font-size:17px; margin:0 0 12px; }
+.guide-actions { display:flex; justify-content:space-between; align-items:center; gap:24px; margin-top:24px; }
+.guide-actions p { font-size:14px; line-height:1.9; max-width:750px; }
+.guide-actions button { flex-shrink:0; }
+.guide-reviewed { margin:28px 0 0; color:#56606f; font-size:10px; line-height:1.9; }
+.programme-advice { border:1px solid var(--line); margin:12px 0 28px; }
+.programme-advice summary { display:flex; justify-content:space-between; align-items:center; gap:18px; padding:20px; background:var(--lavender); cursor:pointer; list-style:none; }
+.programme-advice summary::-webkit-details-marker { display:none; }
+.programme-advice summary small { display:block; margin-bottom:6px; font:9px var(--mono); letter-spacing:.1em; }
+.programme-advice summary strong { font-size:17px; }
+.programme-advice summary > svg { width:20px; flex-shrink:0; }
+.programme-advice[open] summary > svg { transform:rotate(180deg); }
+.programme-advice-body { padding:24px; }
+.programme-advice-body > p,.advice-direction p,.advice-direction li { font-size:14px; line-height:1.9; }
+.programme-advice-body .advice-context { font-size:12px; color:#5f39ff; }
+.programme-advice-body .guide-requirements { grid-template-columns:repeat(2,minmax(0,1fr)); margin-top:22px; }
+.advice-direction { margin:26px 0; }
+.advice-direction h4 { font-size:20px; }
+.advice-direction ul { padding-left:20px; }
+.application-guide button:focus-visible,.application-guide select:focus-visible,.finder-guide-link:focus-visible,.programme-advice summary:focus-visible { outline:3px solid #5f39ff; outline-offset:4px; }
+
+@media (min-width:1021px) and (max-width:1240px) {
+  .site-header { grid-template-columns:215px minmax(0,1fr) 158px; }
+  .site-header .parents-button,.site-header .search-button { display:none; }
+  .nav { gap:14px; }
+  .nav a,.nav button { font-size:11px; white-space:nowrap; }
+}
+
+@media (max-width:1020px) {
+  .guide-destinations,.guide-requirements { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .guide-heading { grid-template-columns:1fr; gap:16px; }
+  .guide-heading > p { max-width:700px; }
+}
+
+@media (max-width:680px) {
+  .application-guide { padding:48px 20px; scroll-margin-top:70px; }
+  .guide-heading h2 { font-size:36px; }
+  .guide-toolbar,.guide-direction-heading,.guide-actions { flex-direction:column; align-items:stretch; }
+  .guide-levels button { flex:1; justify-content:space-between; padding:10px 16px; }
+  .guide-destinations { gap:8px; }
+  .guide-destinations button { padding:16px 12px; }
+  .guide-destinations strong { font-size:24px; }
+  .guide-country-content { padding:20px; }
+  .guide-route-intro,.guide-requirements,.guide-direction-content,.programme-advice-body .guide-requirements,.guide-next { grid-template-columns:1fr; gap:0; }
+  .guide-next { gap:12px; }
+  .guide-direction-heading label { min-width:0; }
+  .guide-direction-overview,.guide-direction-evidence,.guide-local-note { padding:24px 20px; }
+  .programme-advice-body { padding:18px; }
+}
 
 @media (max-width:1020px) {
   .site-header { grid-template-columns:1fr 58px 150px; }
